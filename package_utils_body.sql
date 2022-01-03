@@ -5,11 +5,9 @@ create or replace package body utils as
         for i in (select object_name, object_type from user_objects) loop
             lv_mview_cnt := 0;
             if i.object_type in ('VIEW', 'TABLE', 'MATERIALIZED VIEW') then
-                dbms_output.put_line('drop ' || i.object_type || ' ' || i.object_name);
                 if i.object_type = 'TABLE' then
                     select count(1) into lv_mview_cnt from user_objects where object_name = i.object_name and object_type = 'MATERIALIZED VIEW';
                 end if;
-                dbms_output.put_line(lv_mview_cnt);
                 if lv_mview_cnt = 0 then
                     dbms_output.put_line('drop ' || i.object_type || ' ' || i.object_name);
                     execute immediate 'drop ' || i.object_type || ' ' || i.object_name;
@@ -25,10 +23,17 @@ create or replace package body utils as
         from user_segments where segment_name = upper(tbname);
         return lv_size;
     end get_table_size_mb;
-
-    procedure print_varray(collection udt_varray_varchar2, description varchar2 := '') as
+    
+    function get_boolean_str(bool_var boolean) return varchar2 is
+        lv_bool_str varchar2(10);
     begin
-        dbms_output.put_line('-----' || upper(description) || '----------------------------------------');
+        lv_bool_str := case bool_var when true then 'true' else 'false' end;
+        return lv_bool_str;
+    end;
+
+    procedure print_varray_varchar2(collection sys.odcivarchar2list, description varchar2 := '') as
+    begin
+        dbms_output.put_line(upper(description) || ':' || chr(9));
         if collection.count > 0 then
             for i in collection.first..collection.last loop
                 if collection.exists(i) then
@@ -43,7 +48,7 @@ create or replace package body utils as
     
     procedure print_table(collection udt_table_varchar2, description varchar2 := '') as
     begin
-        dbms_output.put_line('-----' || upper(description) || '----------------------------------------');
+        dbms_output.put_line(upper(description) || ':' || chr(9));
         if collection.count > 0 then
             for i in collection.first..collection.last loop
                 if collection.exists(i) then
@@ -59,7 +64,7 @@ create or replace package body utils as
     procedure print_dictionary(collection udt_dictionary_varchar2, description varchar2 := '') as
         key_name varchar2(20);
     begin
-        dbms_output.put_line('-----' || upper(description) || '----------------------------------------');
+        dbms_output.put_line(upper(description) || ':' || chr(9));
         if collection.count > 0 then
             key_name := collection.first;
             while key_name is not null loop
@@ -73,7 +78,7 @@ create or replace package body utils as
     end;
     procedure print_table_number(collection udt_table_number, description varchar2) as
     begin
-        dbms_output.put(rpad(description, 35));
+        dbms_output.put(upper(description) || ':' || chr(9));
         if collection.count > 0 then
             for i in collection.first..collection.last loop
                 dbms_output.put(collection(i) || ' ');

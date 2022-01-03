@@ -3,6 +3,8 @@ select * from v$database;
 select * from v$containers;
 select * from v$pdbs;
 select * from v$parameter where name='service_names';
+select * from v$open_cursor;
+select * from v$parameter where name like '%open_cursors%';
 
 create user c##common identified by common;
 grant unlimited tablespace to c##common;
@@ -17,6 +19,7 @@ alter session set container=orclpdb;
 show con_name;
 create user local identified by local;
 grant all privileges to local;
+grant select_catalog_role to local;
 connect local/local@orclpdb
 
 --alter pluggable database orclpdb open;

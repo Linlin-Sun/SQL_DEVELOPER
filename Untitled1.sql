@@ -1,13 +1,8 @@
 declare
-    type varchar2_varray is varray(10) of varchar2(20);
-    weekdays varchar2_varray := varchar2_varray();
+    type test_rec is record(id hr.employees.employee_id%type, name hr.employees.first_name%type);
+    test test_rec;
 begin
-    weekdays.extend(7);
-    weekdays(1) := 'Monday';
-    weekdays(2) := 'Tuesday';
-    dbms_output.put_line(weekdays.count);
-    for i in weekdays.first..weekdays.last loop
-        dbms_output.put_line('weekdays(' || i || '): ' || weekdays(i));
-    end loop;
+    select employee_id, first_name into test from hr.employees where rownum = 1;
+    dbms_output.put_line(test.id || ' ' || test.name);
 end;
 /

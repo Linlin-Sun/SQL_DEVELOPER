@@ -1,14 +1,16 @@
 -- varray. Define, declare, initialize, assign, acces
+set serveroutput on
 declare
---    type udt is varray(7) of varchar2(30);
-    weekdays utils.udt_varray_varchar2 := utils.udt_varray_varchar2(NULL, 'Monday');
+    weekdays sys.odcivarchar2list := sys.odcivarchar2list(NULL, 'Monday');
 begin
     weekdays(1) := 'Sunday';
-    weekdays.extend(4);
+    weekdays.extend(6);
     weekdays(3) := 'Tuesday';
     weekdays(4) := 'Wednesday';
     weekdays(5) := 'Thursday';
     weekdays(6) := 'Friday';
+    weekdays(7) := 'Saturday';
+    weekdays(8) := 'Noneday';
     dbms_output.put_line('weekdays limit: ' || weekdays.limit);
     dbms_output.put_line('weekdays count: ' || weekdays.count);
     dbms_output.put_line('weekdays first: ' || weekdays.first);
@@ -16,13 +18,14 @@ begin
     dbms_output.put_line('weekdays prior(1): ' || weekdays.prior(1));
     dbms_output.put_line('weekdays prior(2): ' || weekdays.prior(2));
     dbms_output.put_line('weekdays next(3): ' || weekdays.next(3));
-    utils.print_varray(weekdays);
+    utils.print_varray_varchar2(weekdays);
     weekdays.trim;
-    utils.print_varray(weekdays, 'After trim');
+    utils.print_varray_varchar2(weekdays, 'After trim');
     weekdays.trim(2);
-    utils.print_varray(weekdays, 'After trim(2)');
+    utils.print_varray_varchar2(weekdays, 'After trim(2)');
+--    weekdays.delete(2); -- Does not apply to varray
     weekdays.delete;
-    utils.print_varray(weekdays, 'After delete');
+    utils.print_varray_varchar2(weekdays, 'After delete');
 end;
 /
 -- Matrix using varray
@@ -86,11 +89,13 @@ declare
     weekdays utils.udt_table_varchar2 := utils.udt_table_varchar2(NULL, 'Monday');
 begin
     weekdays(1) := 'Sunday';
-    weekdays.extend(10);
+    weekdays.extend(6);
     weekdays(3) := 'Tuesday';
     weekdays(4) := 'Wednesday';
     weekdays(5) := 'Thursday';
     weekdays(6) := 'Friday';
+    weekdays(7) := 'Saturday';
+    weekdays(8) := 'Noneday';
     dbms_output.put_line('weekdays limit: ' || weekdays.limit);
     dbms_output.put_line('weekdays count: ' || weekdays.count);
     dbms_output.put_line('weekdays first: ' || weekdays.first);
@@ -99,17 +104,21 @@ begin
     dbms_output.put_line('weekdays prior(2): ' || weekdays.prior(2));
     dbms_output.put_line('weekdays next(3): ' || weekdays.next(3));
     utils.print_table(weekdays);
-    weekdays.delete(2);
-    utils.print_table(weekdays, 'After delete(2)');
     weekdays.trim;
     utils.print_table(weekdays, 'After trim');
     weekdays.trim(2);
     utils.print_table(weekdays, 'After trim(2)');
+    weekdays.delete(2);
+    utils.print_table(weekdays, 'After delete(2)');
+    weekdays.delete(4, 5);
+    utils.print_table(weekdays, 'After delete(4, 5)');
+    weekdays.delete;
+    utils.print_table(weekdays, 'After delete');
 end;
 /
 -- associative array. Define, declare, assign, access. trim(), limit(), extend() does not work on associative array
 declare
-    weekdays udt_dictionary_varchar2 := udt_dictionary_varchar2();
+    weekdays utils.udt_dictionary_varchar2 := utils.udt_dictionary_varchar2();
 begin
     weekdays('Sun') := 'Sunday';
     weekdays('Mon') := 'Tuesday';
@@ -117,13 +126,17 @@ begin
     weekdays('Wed') := 'Wednesday';
     weekdays('Thurs') := 'Thursday';
     weekdays('Fri') := 'Friday';
+    weekdays('Sat') := 'Saturday';
+    weekdays('Non') := 'Noneday';
     dbms_output.put_line('weekdays count: ' || weekdays.count);
     dbms_output.put_line('weekdays first: ' || weekdays.first);
     dbms_output.put_line('weekdays last: ' || weekdays.last);
     dbms_output.put_line('weekdays prior(1): ' || weekdays.prior('Mon'));
     dbms_output.put_line('weekdays next(3): ' || weekdays.next('Thurs'));
-    print_dictionary(weekdays);
-    -- weekdays.delete(2);
-    -- print_collection(weekdays, 'After delete(2)');
+    utils.print_dictionary(weekdays);
+    weekdays.delete(2);
+    utils.print_dictionary(weekdays, 'After delete(2)');
+    weekdays.delete('Non', ');
+    utils.print_dictionary(weekdays, 'After delete(Non)');
 end;
 /
