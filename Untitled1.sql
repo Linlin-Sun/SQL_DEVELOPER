@@ -1,8 +1,17 @@
-declare
-    type test_rec is record(id hr.employees.employee_id%type, name hr.employees.first_name%type);
-    test test_rec;
+drop table test_table;
+create table test_table (id int);
+insert into test_table select level from dual connect by level <= 1000000;
+
+create or replace function local_get_table_size_mb(tbname varchar2) return number as
+    lv_size number;
 begin
-    select employee_id, first_name into test from hr.employees where rownum = 1;
-    dbms_output.put_line(test.id || ' ' || test.name);
+    select bytes/(1024*1024) into lv_size from user_segments where segment_name = upper(tbname);
+    return lv_size;
 end;
 /
+delete from test_table;
+commit;
+select local_get_table_size_mb('test_table') from dual;
+truncate table test_table;
+select * from user_objects;
+drop function func_test;

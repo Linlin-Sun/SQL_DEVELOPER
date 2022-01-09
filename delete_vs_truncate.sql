@@ -1,5 +1,4 @@
 select * from user_tables;
-
 select * from user_segments;
 
 drop table test_table;

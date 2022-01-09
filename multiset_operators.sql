@@ -1,5 +1,5 @@
 declare
-    nt_1 utils.udt_table_number := utils.udt_table_number(1, 1, 2, 2, 3, 4, 5, 8, 9);
+    nt_1 utils.udt_table_number := utils.udt_table_number(1, 1, 2, 2, 3, 4, 5, 8, 9, 9);
     nt_2 utils.udt_table_number := utils.udt_table_number(9, 1, 1, 2, 2, 6, 7);
     nt_3 utils.udt_table_number := utils.udt_table_number();
 begin

@@ -128,7 +128,7 @@ begin
     return emp_info_list;
 end;
 /
-
+-- invoke a function which returns a ref cursor
 declare
     lv_fname hr.employees.first_name%type;
     lv_refcursor sys_refcursor;
