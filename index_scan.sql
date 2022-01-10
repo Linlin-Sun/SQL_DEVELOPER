@@ -7,7 +7,7 @@ select * from table(dbms_xplan.display);
 select * from hr.employees where employee_id = 101;
 select * from v$sql where sql_text like '%hr.employees where employee_id = 101%';
 select sql_id, operation, options, object_name, object_type, cardinality, optimizer from v$sql_plan where sql_id = '82mnzcywm53rs';
--- Index range scan (inequality check for unique columns)
+-- Index range scan (equality check on non-unique indexed column OR inequality check for unique or non-unique indexed columns)
 explain plan for select * from hr.employees where employee_id <= 101;
 select * from table(dbms_xplan.display);
 select * from hr.employees where employee_id <= 101;

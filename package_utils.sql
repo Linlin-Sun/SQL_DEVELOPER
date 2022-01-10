@@ -10,7 +10,7 @@ create or replace package utils as
     procedure drop_objects;
     
     procedure print_varray_varchar2(collection sys.odcivarchar2list, description varchar2 := '');
-    procedure print_table(collection udt_table_varchar2, description varchar2 := '');
+    procedure print_table_varchar2(collection sys.odcivarchar2list, description varchar2 := '');
     procedure print_dictionary(collection udt_dictionary_varchar2, description varchar2 := '');
     
     procedure print_table_number(collection udt_table_number, description varchar2 := '');
