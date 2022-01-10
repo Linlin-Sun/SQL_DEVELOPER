@@ -1,18 +1,25 @@
 create or replace package body utils as 
     procedure drop_objects is
         lv_mview_cnt int;
+        lv_drop_flag boolean := FALSE;
     begin
         dbms_output.put_line('START PROCEDURE UTILS.DROP_OBJECTS');
         for i in (select object_name, object_type from user_objects) loop
             lv_mview_cnt := 0;
+            lv_drop_flag := FALSE;
             if i.object_type in ('VIEW', 'TABLE', 'MATERIALIZED VIEW', 'FUNCTION', 'PROCEDURE') then
-                if i.object_name not like 'SYS_%' and i.object_type = 'TABLE' then
+                if i.object_type in ('FUNCTION', 'PROCEDURE') then
+                    lv_drop_flag := TRUE;
+                elsif i.object_name not like 'SYS_%' and i.object_type = 'TABLE' then
                     select count(1) into lv_mview_cnt from user_objects where object_name = i.object_name and object_type = 'MATERIALIZED VIEW';
                     if lv_mview_cnt = 0 then
-                        dbms_output.put_line('drop ' || i.object_type || ' ' || i.object_name);
-                        execute immediate 'drop ' || i.object_type || ' ' || i.object_name;
+                        lv_drop_flag := TRUE;
                     end if;
                 end if;
+            end if;
+            if lv_drop_flag then
+                dbms_output.put_line('drop ' || i.object_type || ' ' || i.object_name);
+                execute immediate 'drop ' || i.object_type || ' ' || i.object_name;
             end if;
         end loop;
         execute immediate 'purge recyclebin';
