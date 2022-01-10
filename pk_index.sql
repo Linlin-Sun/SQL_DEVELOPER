@@ -21,7 +21,7 @@
     -- unique constraint automatically creates an unique index (but not always)
     -- foreign key can be created over a unique constraint, not over a unique index
 -- 6. Can more than one index be created on the same column? 
-    -- Multiple indexes are allowed on the same column(s) but only at most one index can be visible
+    -- Multiple indexes are allowed on the same column(s) but only at most one index can be visible (OPTIMIZER_USE_INVISIBLE_INDEXES)
 select * from user_tables;
 select * from user_tab_cols;
 select * from user_objects;
