@@ -10,6 +10,8 @@ create or replace package body utils as
             if i.object_type in ('VIEW', 'TABLE', 'MATERIALIZED VIEW', 'FUNCTION', 'PROCEDURE') then
                 if i.object_type in ('FUNCTION', 'PROCEDURE') then
                     lv_drop_flag := TRUE;
+                elsif i.object_name like 'PLSQL_PROFILER_%' then
+                    lv_drop_flag := FALSE;
                 elsif i.object_name not like 'SYS_%' and i.object_type = 'TABLE' then
                     select count(1) into lv_mview_cnt from user_objects where object_name = i.object_name and object_type = 'MATERIALIZED VIEW';
                     if lv_mview_cnt = 0 then
@@ -56,7 +58,7 @@ create or replace package body utils as
         dbms_output.put_line('');
     end;
     
-    procedure print_table(collection udt_table_varchar2, description varchar2 := '') as
+    procedure print_table_varchar2(collection udt_table_varchar2, description varchar2 := '') as
     begin
         dbms_output.put_line(upper(description) || ':' || chr(9));
         if collection.count > 0 then

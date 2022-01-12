@@ -10,6 +10,7 @@ select * from user_views;
 select * from user_objects; -- object_name, object_type, data_object_id, status
 select * from user_tables;
 select * from user_dependencies where type like '%VIEW';
+select * from user_tab_columns;
 select * from user_constraints;
 
 -- Creating view, invaliddate view, compile view

@@ -1,12 +1,15 @@
+-- As aggregate function (within group) -- returns one row for each group
+-- analytic function (over clause) -- returns every row
 select * from v$parameter where name like '%max_string_size%';
 -- 11g and +
 select listagg(first_name) from hr.employees;
 select listagg(first_name, ',') from hr.employees;
 select listagg(first_name, ',') within group (order by department_id) from hr.employees;
 select listagg(first_name, ',') within group (order by first_name) from hr.employees;
-select department_id, listagg(first_name, ',') over (partition by department_id)from hr.employees;
-select department_id, listagg(first_name, ',') from hr.employees group by department_id;
+select department_id, listagg(first_name, ',') from hr.employees group by department_id order by department_id;
 select department_id, listagg(first_name, ',') within group(order by first_name) from hr.employees group by department_id;
+
+select hr.employees.department_id, listagg(first_name, ',') over (partition by department_id)from hr.employees;
 
 -- ORA-01489: result of string concatenation is too long
 select listagg(last_name || last_name || last_name || last_name || last_name || last_name || last_name, ',') from hr.employees;
