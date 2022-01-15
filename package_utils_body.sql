@@ -98,5 +98,28 @@ create or replace package body utils as
             dbms_output.put_line('');
         end if;
     end;
+    procedure scope_test_1 as
+        scope_test_var varchar2(50) := 'INNERBLOCK';
+    begin
+        dbms_output.put_line('scope_test_var inner: ' || scope_test_var);
+        dbms_output.put_line('Accessing global scope_test_var using utils.scope_test_var: ' || utils.scope_test_var);
+        dbms_output.put_line('Accessing local scope_test_var using scope_test_1.scope_test_var: ' || scope_test_1.scope_test_var);
+    end;
+    procedure scope_test_2 as
+    begin
+        <<BLOCK_ONE>>
+        declare
+            scope_test_var varchar2(50) := '11111';
+        begin
+            <<BLOCK_TWO>>
+            declare
+                scope_test_var varchar2(50) := '22222';
+            begin
+                dbms_output.put_line('Accessing global scope_test_var using utils.scope_test_var: ' || utils.scope_test_var);
+                dbms_output.put_line('Accessing block_one scope_test_var using BLOCK_ONE.scope_test_var: ' || BLOCK_ONE.scope_test_var);
+                dbms_output.put_line('Accessing block_two scope_test_var using BLOCK_TWO.scope_test_var: ' || BLOCK_TWO.scope_test_var); 
+            end;        
+        end;
+    end;
 end utils;
 /

@@ -14,5 +14,9 @@ create or replace package utils as
     procedure print_dictionary(collection udt_dictionary_varchar2, description varchar2 := '');
     
     procedure print_table_number(collection udt_table_number, description varchar2 := '');
+    
+    scope_test_var varchar2(50) := 'OUTERBLOCK';
+    procedure scope_test_1;
+    procedure scope_test_2;
 end utils;
 /

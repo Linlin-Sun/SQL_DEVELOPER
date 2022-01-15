@@ -119,5 +119,13 @@ select row_number() over w1 as row_order, value,
     avg(value) over (w1 range between unbounded preceding and current row exclude no others) as ex_no_others
     from t1 window w1 as (order by value);
 
-
+-- first --> keep first, last --> keep last
+-- first --> lowest --> order list, last --> highest --> order list
+-- use with dense_rank()
+-- syntax: aggregatefunctionanme() keep (dense_rank first/last order by colname) over(partition by colname)
+    -- aggregatefunctionname: min, max, avg, sum -- function name does NOT really matter
+select emp.*, min(salary) keep (dense_rank first order by salary) over (partition by department_id) lowest,
+    sum(salary) keep (dense_rank last order by salary) over (partition by department_id) highest from hr.employees emp;
+select min(first_name) keep (dense_rank first order by salary) min_fname, min(salary), 
+    max(first_name) keep (dense_rank last order by salary) max_fname, max(salary) from hr.employees emp;
 

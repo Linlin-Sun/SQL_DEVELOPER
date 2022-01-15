@@ -1,11 +1,4 @@
-select * from v$version;
-select * from v$database;
-select * from v$containers;
-select * from v$pdbs;
-select * from v$parameter where name='service_names';
-select * from v$open_cursor;
-select * from v$parameter where name like '%open_cursors%';
-select * from v$parameter where name like '%max_string_size%';
+
 
 show parameter max_string_size;
 
@@ -17,6 +10,8 @@ grant resource, connect, dba to c##common;
 show con_name;
 -- show what pdbs we have
 show pdbs;
+select name, open_mode from v$pdbs;
+alter pluggable database open;
 -- move into pdb which needs to be read and write
 alter session set container=orclpdb;
 show con_name;
@@ -34,6 +29,5 @@ select username from dba_users where username = 'HR';
 
 select * from v$sql where sql_text like '%test_table where id = 1';
 
-
------------------------ hr_main.sql ----------------------
+select * from dba_object_usage;
 
