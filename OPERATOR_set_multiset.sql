@@ -1,6 +1,7 @@
--- UNION(ALL), INTERSECT(ALL), MINUS(ALL), EXCEPT(ALL)
+-- Set operators
+-- UNION(ALL), INTERSECT(ALL), MINUS(ALL)
+-- EXCEPT(ALL) -- new for oracle 21 c, works the same as MINUS(ALL)
 -- MINUS and EXCEPT create distinct values then do the operation
-
 drop table t1;
 drop table t2;
 create table t1 (item varchar2(1));
@@ -34,6 +35,8 @@ select * from t1 except all select * from t2;
 select * from t1 except select * from t2;
 
 -- Multiset operators
+-- MULTISET UNION(ALL), MULTISET INTERSECT(ALL), MULTISET EXCEPT(ALL)
+-- MINUS and EXCEPT create distinct values then do the operation
 
 declare
     nt_1 utils.udt_table_number := utils.udt_table_number(1, 1, 2, 2, 3, 4, 5, 8, 9, 9);
