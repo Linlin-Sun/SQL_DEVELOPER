@@ -9,9 +9,10 @@ set autotrace on explain
 
 show parameter max_string_size;
 
+set serveroutput on;
 exec utils.drop_objects;
 
-set serveroutput on;
+
 
 
 

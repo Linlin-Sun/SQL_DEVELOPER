@@ -1,6 +1,6 @@
-
-
 show parameter max_string_size;
+show parameter db_multi_block_read_count;
+select * from v$parameter where name like '%multi*read_count%';
 
 create user c##common identified by common;
 grant unlimited tablespace to c##common;
@@ -11,10 +11,10 @@ show con_name;
 -- show what pdbs we have
 show pdbs;
 select name, open_mode from v$pdbs;
-alter pluggable database open;
 -- move into pdb which needs to be read and write
 alter session set container=orclpdb;
 show con_name;
+alter pluggable database open;
 create user local identified by local;
 grant all privileges to local;
 grant select_catalog_role to local;

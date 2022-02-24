@@ -1,0 +1,60 @@
+
+SQL*Loader: Release 21.0.0.0.0 - Production on Sat Jan 15 23:04:29 2022
+Version 21.3.0.0.0
+
+Copyright (c) 1982, 2021, Oracle and/or its affiliates.  All rights reserved.
+
+Control File:   load_clob.ctl
+Data File:      load_clob.txt
+  Bad File:     load_clob.bad
+  Discard File:  none specified
+ 
+ (Allow all discards)
+
+Number to load: ALL
+Number to skip: 0
+Errors allowed: 50
+Bind array:     250 rows, maximum of 1048576 bytes
+Continuation:    none specified
+Path used:      Conventional
+
+Table FILE_CONTENT_TAB, loaded from every logical record.
+Insert option in effect for this table: INSERT
+
+   Column Name                  Position   Len  Term Encl Datatype
+------------------------------ ---------- ----- ---- ---- ---------------------
+S_NO                                FIRST     *   .       CHARACTER            
+FILE_NAME                            NEXT   100   .       CHARACTER            
+FILE_DATA                         DERIVED     *  EOF      CHARACTER            
+    Dynamic LOBFILE.  Filename in field FILE_NAME
+
+SQL*Loader-502: unable to open data file '1_load_clob' for field FILE_DATA table FILE_CONTENT_TAB
+SQL*Loader-553: file not found
+SQL*Loader-509: System error: The system cannot find the file specified.
+SQL*Loader-502: unable to open data file '2_load_clob' for field FILE_DATA table FILE_CONTENT_TAB
+SQL*Loader-553: file not found
+SQL*Loader-509: System error: The system cannot find the file specified.
+SQL*Loader-502: unable to open data file '3_load_clob' for field FILE_DATA table FILE_CONTENT_TAB
+SQL*Loader-553: file not found
+SQL*Loader-509: System error: The system cannot find the file specified.
+
+Table FILE_CONTENT_TAB:
+  3 Rows successfully loaded.
+  0 Rows not loaded due to data errors.
+  0 Rows not loaded because all WHEN clauses were failed.
+  0 Rows not loaded because all fields were null.
+
+
+Space allocated for bind array:                  90000 bytes(250 rows)
+Read   buffer bytes: 1048576
+
+Total logical records skipped:          0
+Total logical records read:             3
+Total logical records rejected:         3
+Total logical records discarded:        0
+
+Run began on Sat Jan 15 23:04:29 2022
+Run ended on Sat Jan 15 23:04:30 2022
+
+Elapsed time was:     00:00:00.15
+CPU time was:         00:00:00.09

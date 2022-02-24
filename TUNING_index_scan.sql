@@ -13,6 +13,12 @@ select * from table(dbms_xplan.display);
 select * from hr.employees where employee_id <= 101;
 select * from v$sql where sql_text like '%hr.employees where employee_id <= 101%';
 select sql_id, operation, options, object_name, object_type, cardinality, optimizer from v$sql_plan where sql_id = '62mm5x2jmrutd';
+-- Index full scan (select columns that are in an index)
+explain plan for select last_name, first_name from hr.employees;
+select * from table(dbms_xplan.display);
+select last_name, first_name from hr.employees;
+select * from v$sql where sql_text like '%first_name from hr.employees%';
+select sql_id, operation, options, object_name, object_type, cardinality, optimizer from v$sql_plan where sql_id = '3j8a29jgczbc9';
 -- Index full scan (functions on indexed columns)
 explain plan for select upper(email) from hr.employees;
 select * from table(dbms_xplan.display);
@@ -38,3 +44,5 @@ create index test_objects_idx on test_objects (owner, object_name, subobject_nam
 exec dbms_stats.gather_table_stats(user, 'TEST_OBJECTS', cascade => TRUE);
 explain plan for select owner, object_name from test_objects where object_name = 'DBMS_OUTPUT';
 select * from table(dbms_xplan.display);
+
+

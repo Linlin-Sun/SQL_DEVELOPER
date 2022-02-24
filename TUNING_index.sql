@@ -66,7 +66,6 @@ select /*+ Index_FFS(test_table) */ id, age from test_table;
 select * from v$sql where sql_text like '%id, age from test_table%';
 select sql_id, operation, options, object_name, object_type, cost, cardinality from v$sql_plan where sql_id = '6a042x2xsdaas';
 
-
 select * from test_table where upper(name) = 'A';
 select * from v$sql where sql_text like '% where upper(name) =%';
 select sql_id, operation, options, object_name, object_type, cost, cardinality from v$sql_plan where sql_id = '30bc50ms35da4';
