@@ -1,3 +1,4 @@
+----------------------------- for sys ---------------------------------------
 show parameter max_string_size;
 show parameter db_multi_block_read_count;
 select * from v$parameter where name like '%multi*read_count%';
@@ -31,3 +32,17 @@ select * from v$sql where sql_text like '%test_table where id = 1';
 
 select * from dba_object_usage;
 
+-------------------------------- for local ----------------------------------------------
+select * from v$version;
+select * from user_tables;
+select * from user_objects;
+select * from user_tab_privs;
+select * from user_role_privs;
+select * from user_sys_privs;
+
+set autotrace on explain
+
+show parameter max_string_size;
+
+set serveroutput on;
+exec utils.drop_objects;
